@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model County {
+  id         String         @id @default(uuid())
+  name       String         @unique @db.VarChar(254)
+  created_at DateTime       @default(now())
+  modules    ModuleCounty[]
+
+  @@map("counties")
+}
+
+model Module {
+  id         String         @id @default(uuid())
+  name       String         @unique @db.VarChar(254)
+  created_at DateTime       @default(now())
+  counties   ModuleCounty[]
+
+  @@map("modules")
+}
+
+model ModuleCounty {
+  id         String       @id @default(uuid())
+  module     Module       @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  module_id  String
+  county     County       @relation(fields: [county_id], references: [id], onDelete: Cascade)
+  county_id  String
+  url        String       @db.VarChar(254)
+  is_active  Boolean      @default(true)
+  created_at DateTime     @default(now())
+  users      ModuleUser[]
+
+  @@map("module_county")
+}
+
+model ModuleUser {
+  id         String       @id @default(uuid())
+  module     ModuleCounty @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  module_id  String
+  user_id    String       @db.VarChar(254)
+  created_at DateTime     @default(now())
+
+  @@map("module_user")
+}
