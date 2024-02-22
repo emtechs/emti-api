@@ -1,2 +1,2 @@
-export * from './isAuthenticated.middleware'
-export * from './validateSchema.middleware'
+export * from './isAuthenticated'
+export * from './validateSchema'
