@@ -6,6 +6,7 @@ import {
   imageRouter,
   moduleCountyRouter,
   moduleRouter,
+  moduleUserRouter,
   passwordRouter,
   sessionRouter,
   tokenRouter,
@@ -28,6 +29,7 @@ app.use('/users', userRouter)
 app.use('/counties', countyRouter)
 app.use('/modules', moduleRouter)
 app.use('/modulecounty', moduleCountyRouter)
+app.use('/moduleuser', moduleUserRouter)
 app.use('/login', sessionRouter)
 app.use('/token', tokenRouter)
 app.use('/password', passwordRouter)

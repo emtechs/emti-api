@@ -11,6 +11,7 @@ export const listModuleCountyService = async ({
   if (take) take = +take
   if (skip) skip = +skip
 
+  let where = {}
   let orderBy = {}
 
   switch (order) {
@@ -23,15 +24,19 @@ export const listModuleCountyService = async ({
       break
   }
 
+  if (county_id) where = { ...where, county_id }
+
+  if (user_id) where = { ...where, users: { some: { user_id } } }
+
   const [moduleCounty, total] = await Promise.all([
     prisma.moduleCounty.findMany({
       take,
       skip,
-      where: { county_id, users: { some: { user_id } } },
-      include: { county: true, module: true },
+      where,
+      include: { county: true },
       orderBy,
     }),
-    prisma.moduleCounty.count(),
+    prisma.moduleCounty.count({ where }),
   ])
 
   return {
