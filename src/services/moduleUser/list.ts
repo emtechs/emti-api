@@ -1,10 +1,11 @@
 import { IQuery } from '../../interfaces'
 import { prisma } from '../../lib'
 
-export const listModuleCountyService = async ({
+export const listModuleUserService = async ({
   order,
   skip,
   take,
+  user_id,
   county_id,
 }: IQuery) => {
   if (take) take = +take
@@ -22,19 +23,19 @@ export const listModuleCountyService = async ({
       break
   }
 
-  const [moduleCounty, total] = await Promise.all([
-    prisma.moduleCounty.findMany({
+  const [moduleUser, total] = await Promise.all([
+    prisma.moduleUser.findMany({
       take,
       skip,
-      where: { county_id },
-      include: { county: true },
+      where: { user_id, module: { county_id } },
+      include: { module: true },
       orderBy,
     }),
-    prisma.moduleCounty.count({ where: { county_id } }),
+    prisma.moduleUser.count({ where: { user_id, module: { county_id } } }),
   ])
 
   return {
     total,
-    result: moduleCounty,
+    result: moduleUser,
   }
 }

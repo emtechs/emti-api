@@ -13,6 +13,7 @@ datasource db {
 model County {
   id         String         @id @default(uuid())
   name       String         @unique @db.VarChar(254)
+  url        String         @db.VarChar(254)
   created_at DateTime       @default(now())
   image      Image?
   modules    ModuleCounty[]
@@ -22,6 +23,7 @@ model County {
 
 model Module {
   name       String         @unique @db.VarChar(254)
+  url        String         @db.VarChar(254)
   created_at DateTime       @default(now())
   counties   ModuleCounty[]
 
@@ -50,7 +52,6 @@ model ModuleCounty {
   module_id  String
   county     County       @relation(fields: [county_id], references: [id], onDelete: Cascade)
   county_id  String
-  url        String       @db.VarChar(254)
   is_active  Boolean      @default(true)
   created_at DateTime     @default(now())
   image      Image?

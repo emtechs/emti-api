@@ -2,6 +2,7 @@
 CREATE TABLE "counties" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(254) NOT NULL,
+    "url" VARCHAR(254) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "counties_pkey" PRIMARY KEY ("id")
@@ -10,6 +11,7 @@ CREATE TABLE "counties" (
 -- CreateTable
 CREATE TABLE "modules" (
     "name" VARCHAR(254) NOT NULL,
+    "url" VARCHAR(254) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "modules_pkey" PRIMARY KEY ("name")
@@ -34,7 +36,6 @@ CREATE TABLE "module_county" (
     "key" TEXT NOT NULL,
     "module_id" TEXT NOT NULL,
     "county_id" TEXT NOT NULL,
-    "url" VARCHAR(254) NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
   createModuleUserController,
   deleteModuleUserController,
+  listModuleUserController,
 } from '../controllers'
 import {
   validateSchemaMiddleware,
@@ -17,6 +18,8 @@ moduleUserRouter.post(
   validateSchemaMiddleware(ModuleUserCreateSchema),
   createModuleUserController,
 )
+
+moduleUserRouter.get('', verifyUserIsAuthenticated, listModuleUserController)
 
 moduleUserRouter.delete(
   '/:id',

@@ -1,5 +1,9 @@
 import { Request, Response } from 'express'
-import { createModuleUserService, deleteModuleUserService } from '../services'
+import {
+  createModuleUserService,
+  deleteModuleUserService,
+  listModuleUserService,
+} from '../services'
 
 export const createModuleUserController = async (
   req: Request,
@@ -15,4 +19,9 @@ export const deleteModuleUserController = async (
 ) => {
   await deleteModuleUserService(req.params.id)
   return res.status(204).json({})
+}
+
+export const listModuleUserController = async (req: Request, res: Response) => {
+  const modules = await listModuleUserService(req.query)
+  return res.json(modules)
 }
