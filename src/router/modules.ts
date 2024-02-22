@@ -4,13 +4,12 @@ import {
   deleteModuleController,
   listModuleController,
   retrieveModuleController,
-  updateModuleController,
 } from '../controllers'
 import {
   validateSchemaMiddleware,
   verifyUserIsAuthenticated,
 } from '../middlewares'
-import { ModuleCreateSchema, ModuleUpdateSchema } from '../schemas'
+import { ModuleCreateSchema } from '../schemas'
 
 export const moduleRouter = Router()
 
@@ -24,12 +23,5 @@ moduleRouter.post(
 moduleRouter.get('', verifyUserIsAuthenticated, listModuleController)
 
 moduleRouter.get('/:id', verifyUserIsAuthenticated, retrieveModuleController)
-
-moduleRouter.patch(
-  '/:id',
-  verifyUserIsAuthenticated,
-  validateSchemaMiddleware(ModuleUpdateSchema),
-  updateModuleController,
-)
 
 moduleRouter.delete('/:id', verifyUserIsAuthenticated, deleteModuleController)

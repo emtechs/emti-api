@@ -14,40 +14,59 @@ model County {
   id         String         @id @default(uuid())
   name       String         @unique @db.VarChar(254)
   created_at DateTime       @default(now())
+  image      Image?
   modules    ModuleCounty[]
 
   @@map("counties")
 }
 
 model Module {
-  id         String         @id @default(uuid())
   name       String         @unique @db.VarChar(254)
   created_at DateTime       @default(now())
   counties   ModuleCounty[]
 
+  @@id([name])
   @@map("modules")
 }
 
+model Image {
+  id         String        @id @default(uuid())
+  name       String        @db.VarChar(200)
+  size       Int           @db.Integer()
+  url        String        @db.VarChar(200)
+  key        String        @unique @db.VarChar(200)
+  created_at DateTime      @default(now())
+  county     County?       @relation(fields: [county_id], references: [id], onDelete: Cascade)
+  county_id  String?       @unique
+  module     ModuleCounty? @relation(fields: [module_id], references: [key], onDelete: Cascade)
+  module_id  String?       @unique
+
+  @@map("images")
+}
+
 model ModuleCounty {
-  id         String       @id @default(uuid())
-  module     Module       @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  key        String       @unique @default(uuid())
+  module     Module       @relation(fields: [module_id], references: [name], onDelete: Cascade)
   module_id  String
   county     County       @relation(fields: [county_id], references: [id], onDelete: Cascade)
   county_id  String
   url        String       @db.VarChar(254)
   is_active  Boolean      @default(true)
   created_at DateTime     @default(now())
+  image      Image?
   users      ModuleUser[]
 
+  @@id([module_id, county_id])
   @@map("module_county")
 }
 
 model ModuleUser {
-  id         String       @id @default(uuid())
-  module     ModuleCounty @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  key        String       @unique @default(uuid())
+  module     ModuleCounty @relation(fields: [module_id], references: [key], onDelete: Cascade)
   module_id  String
   user_id    String       @db.VarChar(254)
   created_at DateTime     @default(now())
 
+  @@id([module_id, user_id])
   @@map("module_user")
 }

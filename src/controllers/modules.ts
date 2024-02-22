@@ -4,7 +4,6 @@ import {
   deleteModuleService,
   listModuleService,
   retrieveModuleService,
-  updateModuleService,
 } from '../services'
 
 export const createModuleController = async (req: Request, res: Response) => {
@@ -19,11 +18,6 @@ export const listModuleController = async (req: Request, res: Response) => {
 
 export const retrieveModuleController = async (req: Request, res: Response) => {
   const moduleData = await retrieveModuleService(req.params.id)
-  return res.json(moduleData)
-}
-
-export const updateModuleController = async (req: Request, res: Response) => {
-  const moduleData = await updateModuleService(req.params.id, req.body)
   return res.json(moduleData)
 }
 

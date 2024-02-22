@@ -1,27 +1,17 @@
-import { authApi } from '../../lib'
-import { AppError } from '../../errors'
-import { env } from '../../env'
+import { prisma } from '../../lib'
+import { IImageRequest } from '../../interfaces'
+import { deleteImageService } from '../../services'
 
-export const createImageService = async (
-  user_id: string,
-  file?: Express.Multer.File,
-) => {
-  if (!file) throw new AppError('image not found')
+export const createImageService = async (data: IImageRequest) => {
+  const { county_id, module_id } = data
 
-  const { originalname: name, path, size, filename: key } = file
+  const image = await prisma.image.findUnique({
+    where: { county_id, module_id },
+  })
 
-  const data = {
-    name,
-    size,
-    url: path,
-    key,
-    user_id,
-  }
+  if (image) await deleteImageService(image.id)
 
-  if (env.NODE_ENV === 'production') return await authApi.post('images', data)
-
-  const url = `http://localhost:${env.PORT}/files/${key}`
-  data.url = url
-
-  return await authApi.post('images', data)
+  return await prisma.image.create({
+    data,
+  })
 }

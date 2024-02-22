@@ -1,7 +1,10 @@
 import { Request, Response } from 'express'
-import { createImageService } from '../services'
+import { uploadImageService } from '../services'
 
-export const createImageController = async (req: Request, res: Response) => {
-  await createImageService(req.user.id, req.file)
+export const createImageUserController = async (
+  req: Request,
+  res: Response,
+) => {
+  await uploadImageService({ user_id: req.user.id }, req.file)
   return res.status(201).json({})
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createImageController } from '../controllers'
+import { createImageUserController } from '../controllers'
 import { upload } from '../lib'
 import { verifyUserIsAuthenticated } from '../middlewares'
 
@@ -9,5 +9,5 @@ imageRouter.post(
   '',
   verifyUserIsAuthenticated,
   upload.single('image'),
-  createImageController,
+  createImageUserController,
 )

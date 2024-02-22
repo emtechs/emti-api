@@ -1,5 +1,6 @@
 export * from './auth'
 export * from './counties'
+export * from './image'
 export * from './moduleCounty'
 export * from './moduleUser'
 export * from './modules'

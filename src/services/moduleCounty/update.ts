@@ -3,12 +3,12 @@ import { prisma } from '../../lib'
 import { AppError } from '../../errors'
 
 export const updateModuleCountyService = async (
-  id: string,
+  key: string,
   { county_id, module_id, url }: IModuleCountyUpdateRequest,
 ) => {
   try {
     return await prisma.moduleCounty.update({
-      where: { id },
+      where: { key },
       data: {
         county_id,
         module_id,
