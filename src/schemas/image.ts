@@ -5,6 +5,5 @@ export const ImageCreateSchema = z.object({
   size: z.number(),
   url: z.string(),
   key: z.string(),
-  county_id: z.string().uuid().optional(),
-  module_id: z.string().uuid().optional(),
+  county_id: z.string().uuid(),
 })

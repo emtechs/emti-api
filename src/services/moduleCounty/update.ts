@@ -4,7 +4,7 @@ import { AppError } from '../../errors'
 
 export const updateModuleCountyService = async (
   key: string,
-  { county_id, module_id, url }: IModuleCountyUpdateRequest,
+  { county_id, module_id }: IModuleCountyUpdateRequest,
 ) => {
   try {
     return await prisma.moduleCounty.update({
@@ -12,7 +12,6 @@ export const updateModuleCountyService = async (
       data: {
         county_id,
         module_id,
-        url,
       },
     })
   } catch {

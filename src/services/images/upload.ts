@@ -5,15 +5,13 @@ import { createImageService } from '../../services'
 
 interface IDataRequest {
   county_id?: string
-  module_id?: string
   user_id?: string
 }
 
 export const uploadImageService = async (
-  data_req: IDataRequest,
+  { county_id, user_id }: IDataRequest,
   file?: Express.Multer.File,
 ) => {
-  const { user_id } = data_req
   if (!file) throw new AppError('image not found')
 
   const { originalname: name, path, size, filename: key } = file
@@ -23,19 +21,18 @@ export const uploadImageService = async (
     size,
     url: path,
     key,
-    ...data_req,
   }
 
   if (env.NODE_ENV === 'production') {
-    if (user_id) return await authApi.post('images', data)
+    if (user_id) return await authApi.post('images', { ...data, user_id })
 
-    return await createImageService(data)
+    if (county_id) return await createImageService({ ...data, county_id })
   }
 
   const url = `http://localhost:${env.PORT}/files/${key}`
   data.url = url
 
-  if (user_id) return await authApi.post('images', data)
+  if (user_id) return await authApi.post('images', { ...data, user_id })
 
-  return await createImageService(data)
+  if (county_id) return await createImageService({ ...data, county_id })
 }

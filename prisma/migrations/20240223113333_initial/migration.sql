@@ -10,11 +10,12 @@ CREATE TABLE "counties" (
 
 -- CreateTable
 CREATE TABLE "modules" (
+    "id" TEXT NOT NULL,
     "name" VARCHAR(254) NOT NULL,
     "url" VARCHAR(254) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "modules_pkey" PRIMARY KEY ("name")
+    CONSTRAINT "modules_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -25,8 +26,7 @@ CREATE TABLE "images" (
     "url" VARCHAR(200) NOT NULL,
     "key" VARCHAR(200) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "county_id" TEXT,
-    "module_id" TEXT,
+    "county_id" TEXT NOT NULL,
 
     CONSTRAINT "images_pkey" PRIMARY KEY ("id")
 );
@@ -65,9 +65,6 @@ CREATE UNIQUE INDEX "images_key_key" ON "images"("key");
 CREATE UNIQUE INDEX "images_county_id_key" ON "images"("county_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "images_module_id_key" ON "images"("module_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "module_county_key_key" ON "module_county"("key");
 
 -- CreateIndex
@@ -77,10 +74,7 @@ CREATE UNIQUE INDEX "module_user_key_key" ON "module_user"("key");
 ALTER TABLE "images" ADD CONSTRAINT "images_county_id_fkey" FOREIGN KEY ("county_id") REFERENCES "counties"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "images" ADD CONSTRAINT "images_module_id_fkey" FOREIGN KEY ("module_id") REFERENCES "module_county"("key") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "module_county" ADD CONSTRAINT "module_county_module_id_fkey" FOREIGN KEY ("module_id") REFERENCES "modules"("name") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "module_county" ADD CONSTRAINT "module_county_module_id_fkey" FOREIGN KEY ("module_id") REFERENCES "modules"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "module_county" ADD CONSTRAINT "module_county_county_id_fkey" FOREIGN KEY ("county_id") REFERENCES "counties"("id") ON DELETE CASCADE ON UPDATE CASCADE;

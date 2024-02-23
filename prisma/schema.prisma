@@ -22,39 +22,36 @@ model County {
 }
 
 model Module {
+  id         String         @id @default(uuid())
   name       String         @unique @db.VarChar(254)
   url        String         @db.VarChar(254)
   created_at DateTime       @default(now())
   counties   ModuleCounty[]
 
-  @@id([name])
   @@map("modules")
 }
 
 model Image {
-  id         String        @id @default(uuid())
-  name       String        @db.VarChar(200)
-  size       Int           @db.Integer()
-  url        String        @db.VarChar(200)
-  key        String        @unique @db.VarChar(200)
-  created_at DateTime      @default(now())
-  county     County?       @relation(fields: [county_id], references: [id], onDelete: Cascade)
-  county_id  String?       @unique
-  module     ModuleCounty? @relation(fields: [module_id], references: [key], onDelete: Cascade)
-  module_id  String?       @unique
+  id         String   @id @default(uuid())
+  name       String   @db.VarChar(200)
+  size       Int      @db.Integer()
+  url        String   @db.VarChar(200)
+  key        String   @unique @db.VarChar(200)
+  created_at DateTime @default(now())
+  county     County   @relation(fields: [county_id], references: [id], onDelete: Cascade)
+  county_id  String   @unique
 
   @@map("images")
 }
 
 model ModuleCounty {
   key        String       @unique @default(uuid())
-  module     Module       @relation(fields: [module_id], references: [name], onDelete: Cascade)
+  module     Module       @relation(fields: [module_id], references: [id], onDelete: Cascade)
   module_id  String
   county     County       @relation(fields: [county_id], references: [id], onDelete: Cascade)
   county_id  String
   is_active  Boolean      @default(true)
   created_at DateTime     @default(now())
-  image      Image?
   users      ModuleUser[]
 
   @@id([module_id, county_id])
