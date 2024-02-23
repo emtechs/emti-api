@@ -2,7 +2,6 @@ import { IQuery } from '../../interfaces'
 import { prisma } from '../../lib'
 
 export const listModuleUserService = async ({
-  order,
   skip,
   take,
   user_id,
@@ -11,31 +10,26 @@ export const listModuleUserService = async ({
   if (take) take = +take
   if (skip) skip = +skip
 
-  let orderBy = {}
-
-  switch (order) {
-    case 'county':
-      orderBy = { county: { name: 'asc' } }
-      break
-
-    case 'module':
-      orderBy = { module: { name: 'asc' } }
-      break
-  }
-
   const [moduleUser, total] = await Promise.all([
     prisma.moduleUser.findMany({
       take,
       skip,
       where: { user_id, module: { county_id } },
-      include: { module: true },
-      orderBy,
+      include: { module: { include: { module: true } } },
+      orderBy: { module: { module: { name: 'asc' } } },
     }),
     prisma.moduleUser.count({ where: { user_id, module: { county_id } } }),
   ])
 
   return {
     total,
-    result: moduleUser,
+    result: moduleUser.map((el) => {
+      return {
+        id: el.key,
+        name: el.module.module.name.toUpperCase(),
+        url: el.module.module.url,
+        is_active: el.module.is_active,
+      }
+    }),
   }
 }
