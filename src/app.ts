@@ -2,12 +2,14 @@ import 'express-async-errors'
 import express from 'express'
 import { errorHandler } from './errors'
 import {
+  classRouter,
   countyRouter,
   imageRouter,
   moduleCountyRouter,
   moduleRouter,
   moduleUserRouter,
   passwordRouter,
+  schoolYearRouter,
   sessionRouter,
   tokenRouter,
   userRouter,
@@ -34,6 +36,8 @@ app.use('/login', sessionRouter)
 app.use('/token', tokenRouter)
 app.use('/password', passwordRouter)
 app.use('/images', imageRouter)
+app.use('/classes', classRouter)
+app.use('/schoolYear', schoolYearRouter)
 
 app.use(errorHandler)
 

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { AppError } from '../errors'
+import { IRequestUser } from '../interfaces'
 import { authApi } from '../lib'
 
 export const verifyUserIsAuthenticated = async (
@@ -15,9 +16,9 @@ export const verifyUserIsAuthenticated = async (
 
   authApi.defaults.headers.authorization = `Bearer ${authorization}`
 
-  const { data } = await authApi.get<string>('token')
+  const { data } = await authApi.get<IRequestUser>('users/profile')
 
-  req.user = { id: data }
+  req.user = data
 
   return next()
 }

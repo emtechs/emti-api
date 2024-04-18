@@ -68,3 +68,19 @@ model ModuleUser {
   @@id([module_id, user_id])
   @@map("module_user")
 }
+
+model Class {
+  id         String   @id @default(uuid())
+  name       String   @unique @db.VarChar(254)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  @@map("classes")
+}
+
+model SchoolYear {
+  id   String @id @default(uuid())
+  year String @unique @db.VarChar(10)
+
+  @@map("school_year")
+}

@@ -1,5 +1,6 @@
 export interface IRequestUser {
   id: string
+  is_super: boolean
 }
 
 export interface IQuery {
