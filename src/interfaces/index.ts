@@ -1,7 +1,6 @@
 export * from './classes'
 export * from './counties'
 export * from './global'
-export * from './images'
 export * from './moduleCounty'
 export * from './moduleUser'
 export * from './modules'

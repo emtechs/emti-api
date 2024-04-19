@@ -10,12 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Class {
+  id         String   @id @default(uuid())
+  name       String   @unique @db.VarChar(254)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  @@map("classes")
+}
+
 model County {
   id         String         @id @default(uuid())
   name       String         @unique @db.VarChar(254)
   url        String         @db.VarChar(254)
   created_at DateTime       @default(now())
-  image      Image?
   modules    ModuleCounty[]
 
   @@map("counties")
@@ -29,19 +37,6 @@ model Module {
   counties   ModuleCounty[]
 
   @@map("modules")
-}
-
-model Image {
-  id         String   @id @default(uuid())
-  name       String   @db.VarChar(200)
-  size       Int      @db.Integer()
-  url        String   @db.VarChar(200)
-  key        String   @unique @db.VarChar(200)
-  created_at DateTime @default(now())
-  county     County   @relation(fields: [county_id], references: [id], onDelete: Cascade)
-  county_id  String   @unique
-
-  @@map("images")
 }
 
 model ModuleCounty {
@@ -67,15 +62,6 @@ model ModuleUser {
 
   @@id([module_id, user_id])
   @@map("module_user")
-}
-
-model Class {
-  id         String   @id @default(uuid())
-  name       String   @unique @db.VarChar(254)
-  is_active  Boolean  @default(true)
-  created_at DateTime @default(now())
-
-  @@map("classes")
 }
 
 model SchoolYear {

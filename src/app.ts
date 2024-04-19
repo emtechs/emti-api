@@ -4,15 +4,10 @@ import { errorHandler } from './errors'
 import {
   classRouter,
   countyRouter,
-  imageRouter,
   moduleCountyRouter,
   moduleRouter,
   moduleUserRouter,
-  passwordRouter,
   schoolYearRouter,
-  sessionRouter,
-  tokenRouter,
-  userRouter,
 } from './router'
 
 const app = express()
@@ -27,17 +22,12 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/users', userRouter)
+app.use('/classes', classRouter)
 app.use('/counties', countyRouter)
 app.use('/modules', moduleRouter)
 app.use('/modulecounty', moduleCountyRouter)
 app.use('/moduleuser', moduleUserRouter)
-app.use('/login', sessionRouter)
-app.use('/token', tokenRouter)
-app.use('/password', passwordRouter)
-app.use('/images', imageRouter)
-app.use('/classes', classRouter)
-app.use('/schoolYear', schoolYearRouter)
+app.use('/schoolyear', schoolYearRouter)
 
 app.use(errorHandler)
 
